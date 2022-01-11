@@ -3,8 +3,8 @@ import pygame
 k = 0
 
 
-def print_text(text, x, y, color=(0, 0, 0), type=None, size=30):
-    font_type = pygame.font.Font(type, size)
+def print_text(text, x, y, color=(0, 0, 0), type='data/FONT_TYPE.ttf', size=20):
+    font_type = pygame.font.Font(type, size - 5)
     text = font_type.render(text, True, color)
     screen.blit(text, (x, y))
 
@@ -39,8 +39,6 @@ class Button():
                         exit()
                     elif self.action == 'returne':
                         game()
-                    elif self.action == 'pause':
-                        pause(self.x, self.y, self.width, self.height)
                     else:
                         pass
         else:
@@ -62,45 +60,78 @@ def is_click(pos_x, pos_y, width, height):
         return False
 
 
-def pause(x, y, width, height):
-    paused = True
-    while paused:
-        print_text('Paused...', 800, 100, color='white', size=90)
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                quit()
-        if is_click(pos_x=x, pos_y=y, width=width, height=height):
-            pygame.draw.rect(screen, 'black', (500, 0, 1000, 200))
-            paused = False
-
-        pygame.display.update()
-
-
 def game():
     global k
     running = True
     print(12341234123)
+    need_input1 = False
+    input_text1 = ''
+    need_input2 = False
+    input_text2 = ''
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 exit()
+            if need_input1 and event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_BACKSPACE:
+                    input_text1 = input_text1[:-1]
+                else:
+                    if len(input_text1) < 15:
+                        input_text1 += event.unicode
+
+            keys = pygame.key.get_pressed()
+
+            if is_click(1350, 800, 500, 50):
+                need_input1 = True
+
+            pygame.draw.rect(screen, 'white', (1350, 800, 500, 70), border_radius=5)
+            if input_text1 == '':
+                print_text('Player1', 1360, 810, color='grey', size=50)
+
+            if need_input1 is True:
+                need_input2 = False
+                pygame.draw.rect(screen, 'white', (1350, 800, 500, 70), border_radius=5)
+                print_text(input_text1, 1360, 810, color='black', size=50)
+            else:
+                pass
+
+
+
+
+
+            if need_input2 and event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_BACKSPACE:
+                    input_text2 = input_text2[:-1]
+                else:
+                    if len(input_text2) < 15:
+                        input_text2 += event.unicode
+
+            keys = pygame.key.get_pressed()
+
+            if is_click(1350, 900, 500, 50):
+                need_input2 = True
+
+            pygame.draw.rect(screen, 'white', (1350, 900, 500, 70), border_radius=5)
+            if input_text2 == '':
+                print_text('Player2', 1360, 910, color='grey', size=50)
+
+            if need_input2 is True:
+                need_input1 = False
+                pygame.draw.rect(screen, 'white', (1350, 900, 500, 70), border_radius=5)
+                print_text(input_text2, 1360, 910, color='black', size=50)
+            else:
+                pass
+
             close = Button(x=200, y=200, width=170, height=70, background='white', active_back='grey', action='close')
-            close.draw_square(x=35, y=23, text='CLOSE', color='black', size=40, round=10)
+            close.draw_square(x=40, y=18, text='CLOSE', color='black', size=40, round=10)
 
             returne = Button(x=400, y=200, width=170, height=70, background='white', active_back='grey',
                              action='returne')
-            returne.draw_square(x=22, y=23, text='RETURNE', size=40, round=10)
-
-            pause_click = Button(x=600, y=200, width=170, height=70, background='white', active_back='grey',
-                                 action='pause')
-            pause_click.draw_square(x=40, y=23, text='PAUSE', size=40, round=10)
+            returne.draw_square(x=25, y=18, text='RETURNE', size=40, round=10)
 
             sound = Button(x=800, y=200, width=170, height=70, background='white', active_back='grey',
                            action='sound')
-            sound.draw_square(x=40, y=23, text='SOUND', size=40, round=100)
-            if is_click(600, 200, 170, 70):
-                pause(600, 200, 170, 70)
+            sound.draw_square(x=40, y=18, text='SOUND', size=40, round=100)
             if is_click(800, 200, 170, 70):
                 k += 1
             if k % 2 != 0:
