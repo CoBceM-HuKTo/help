@@ -1,28 +1,30 @@
-﻿program ss;
-var n: integer;
-    no: string;
-    strno: string;
-    strnt: string;
-    i: integer;
-    strntt: string;
-    
+program Ex1;
+type matrix = array [1..5, 1..5] of integer;
+var a: matrix;
+    i, j, s: integer;
+    matrix2:array [1..5] of integer;
 begin
-  readln(n);
-  str(n,no);
-  if (length(no) = 4) then
+  for i:=1 to 5 do
+  begin
+    for j:= 1 to 5 do
+    begin
+      readln(a[i, j]);
+      
+    end;
+  end;
+  for i:=1 to 5 do
+  begin
+    s:= 0;
+    for j:= 1 to 5 do
+    begin
+      if (j mod 2 = 0) then
       begin
-        strno:= no[1:3];
-        strnt:= no[3:5];
-        
-        for i:=length(strnt) downto 1 do
-          begin
-            strntt:=strntt+strnt[i];
-          end;
-        if (strno = strntt) then
-          writeln(n, ' - это полиндром.')
-        else 
-          writeln(n, ' - это не полиндром.')
-      end
-  else
-      writeln('В числе ', n, ', не 4 знака.')
+        if (a[i, j] > -1) then
+          s:= s + a[i, j];
+      end;
+    end;
+    matrix2[i]:= s;
+  end;
+  writeln(matrix2);
 end.
+  
