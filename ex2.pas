@@ -28,7 +28,7 @@ begin
     F[i]:= E[i]-C[i];
     G[i]:= F[i]-B[i];
   end;
-  x:= G[i]
+  x:= G[i];
   for i:=2 to n do
     if G[i]>x then
       x:= G[i];
