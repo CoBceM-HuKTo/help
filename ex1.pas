@@ -1,30 +1,37 @@
-program Ex1;
-type matrix = array [1..5, 1..5] of integer;
-var a: matrix;
-    i, j, s: integer;
-    matrix2:array [1..5] of integer;
+Program Sluch_chisla;
+Const Ntab=10000;
+Var i, j, k: integer; a:real; z: array [1..Ntab] of real; b:array [1..20] of real; c:array [1..21] of real;
+Procedure Puasson(n: integer; Ax, Ay:real; Var Tab: array [1..Ntab] of real);
+Var x,y: real; i : integer;
 begin
-  for i:=1 to 5 do
-  begin
-    for j:= 1 to 5 do
+    i:=1;
+    while i <= Ntab do
     begin
-      readln(a[i, j]);
-      
-    end;
-  end;
-  for i:=1 to 5 do
-  begin
-    s:= 0;
-    for j:= 1 to 5 do
-    begin
-      if (j mod 2 = 0) then
+      x:= random*Ax;
+      y:= random*Ay;
+      if y<(power(x,n)*exp(-x)/n) then
       begin
-        if (a[i, j] > -1) then
-          s:= s + a[i, j];
-      end;
-    end;
-    matrix2[i]:= s;
+        Tab[i]:= x;
+        i:= i + 1
+      end
+    end
+end;
+
+begin
+  randomize;
+  Puasson(2,10,0.3,z);
+  k:= 20;
+  for i:= 1 to k + 1 do
+    c[i]:= (i-1)*10/k;
+  for i:=1 to k do
+  begin
+    b[i]:=0;
+    for j:=1 to Ntab do
+      if ((z[j]>c[i]) and (z[j] <= c[i + 1])) then
+        b[i]:=b[i] + 1
   end;
-  writeln(matrix2);
+  for i:=1 to k do
+    b[i]:= b[i]/Ntab*2;
+  for i:=1 to k do
+    Writeln('I=', i:4, 'c=', c[I]:6:2, '  b=', b[i]:8:4)
 end.
-  
